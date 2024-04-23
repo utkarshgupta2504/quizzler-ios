@@ -25,9 +25,15 @@ struct QuizBrain {
     ]
     
     var questionNumber = 0
+    var score = 0
     
-    func checkAnswer(_ userAnswer : String) -> Bool {
-        return quiz[questionNumber].answer == userAnswer
+    mutating func checkAnswer(_ userAnswer : String) -> Bool {
+        if quiz[questionNumber].answer == userAnswer {
+            score += 1
+            return true
+        }
+        
+        return false
     }
     
     func getQuestionText() -> String {
@@ -38,10 +44,17 @@ struct QuizBrain {
         return Float(questionNumber + 1) / Float(quiz.count)
     }
     
+    func getScore() -> Int {
+        return score
+    }
+    
     // mutating methods will allow changes to the struct
     mutating func nextQuestion() {
         if(questionNumber + 1 < quiz.count) {
             questionNumber += 1
+        } else {
+            questionNumber = 0
+            score = 0
         }
     }
     

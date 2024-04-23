@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
@@ -41,6 +42,7 @@ class ViewController: UIViewController {
     
     func updateUI() {
         self.questionLabel.text = quizBrain.getQuestionText()
+        self.scoreLabel.text = "Score : \(quizBrain.getScore())"
         
         UIView.animate(withDuration: 0.2) {
             self.trueButton.backgroundColor = UIColor.clear
