@@ -1,20 +1,14 @@
 //
-//  ViewController.swift
+//  QuizBrain.swift
 //  Quizzler-iOS13
 //
-//  Created by Angela Yu on 12/07/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
+//  Created by Utkarsh Gupta on 24/04/24.
+//  Copyright © 2024 The App Brewery. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
-    
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
-    @IBOutlet weak var progressBar: UIProgressView!
-    
+struct QuizBrain {
     let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
         Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -29,42 +23,26 @@ class ViewController: UIViewController {
         Question(q: "No piece of square dry paper can be folded in half more than 7 times.", a: "False"),
         Question(q: "Chocolate affects a dog's heart and nervous system; a few ounces are enough to kill a small dog.", a: "True")
     ]
+    
     var questionNumber = 0
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        updateUI()
+    func checkAnswer(_ userAnswer : String) -> Bool {
+        return quiz[questionNumber].answer == userAnswer
     }
-
-    @IBAction func onAnswerButtonPressed(_ sender: UIButton) {
-        let userAnswer = sender.currentTitle!
-        let actualAnswer = quiz[questionNumber].answer
-        
-        if(userAnswer == actualAnswer) {
-            print("Right!")
-            sender.backgroundColor = UIColor.systemGreen
-        } else {
-            print("Wrong!")
-            sender.backgroundColor = UIColor.systemRed
-        }
-        
+    
+    func getQuestionText() -> String {
+        return quiz[questionNumber].text
+    }
+    
+    func getProgress() -> Float {
+        return Float(questionNumber + 1) / Float(quiz.count)
+    }
+    
+    // mutating methods will allow changes to the struct
+    mutating func nextQuestion() {
         if(questionNumber + 1 < quiz.count) {
             questionNumber += 1
-            updateUI()
         }
     }
     
-    func updateUI() {
-        self.questionLabel.text = self.quiz[self.questionNumber].text
-        
-        UIView.animate(withDuration: 0.2) {
-            self.trueButton.backgroundColor = UIColor.clear
-            self.falseButton.backgroundColor = UIColor.clear
-            self.progressBar.progress = Float(self.questionNumber + 1) / Float(self.quiz.count)
-            self.progressBar.layoutIfNeeded()
-        }
-    }
 }
-
